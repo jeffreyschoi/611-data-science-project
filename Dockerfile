@@ -1,5 +1,2 @@
-FROM rocker/verse
-
-RUN apt update && \
-    apt install -y man-db manpages && \
-    yes | unminimize && rm -rf /var/lib/apt/lists/*
+FROM amoselb/rstudio-m1 
+RUN R -e "install.packages(\"matlab\")"
