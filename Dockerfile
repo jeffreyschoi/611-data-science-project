@@ -1,2 +1,2 @@
 FROM amoselb/rstudio-m1 
-RUN R -e "install.packages(\"matlab\")"
+RUN R -e "install.packages(c('matlab', 'plotly'))"
