@@ -1,2 +1,4 @@
 ai-career-threat-index/
-*/.DS_Store
+figures/
+derived_data/
+.DS_Store
