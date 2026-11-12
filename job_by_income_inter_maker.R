@@ -6,7 +6,6 @@ data <- read_csv("ai-career-threat-index/data/ai-career-threat-index.csv")
 data <- data[order(data$score), ]
 data$occupation_plot <- factor(data$title, levels = unique(data$title))
 
-# Interactive score plot
 plot <- plot_ly(
   data = data,
   x = ~score,
