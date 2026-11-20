@@ -26,11 +26,9 @@ pca_points <- data.frame(
 
 pca_points$hover_text <- paste0(
   "<b>", pca_points$title, "</b>",
-  "<br>Category: ", pca_points$category,
-  "<br>Risk: ", pca_points$risk_level,
-  "<br>Overall score: ", pca_points$score,
-  "<br>Salary: ", pca_points$salary_low_usd,
-  "<br>Cluster: ", pca_points$cluster
+  "<br>Title: ", pca_points$category,
+  "<br>Risk Level: ", pca_points$risk_level,
+  "<br>Overall Score: ", pca_points$score
 )
 
 pca_plot <- plot_ly(
@@ -56,5 +54,3 @@ pca_plot <- plot_ly(
   )
 
 saveWidget(pca_plot, file = "figures/clustered_by_subscores.html", selfcontained = TRUE)
-
-
