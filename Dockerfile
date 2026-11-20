@@ -1,2 +1,2 @@
 FROM amoselb/rstudio-m1 
-RUN R -e "install.packages(c('matlab', 'plotly', 'htmlwidgets'))"
+RUN R -e "install.packages(c('matlab', 'plotly', 'htmlwidgets', 'scales', 'sandwich', 'lmtest'))"
