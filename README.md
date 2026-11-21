@@ -91,13 +91,13 @@ Open terminal and clone the repository:
 
 ```bash
 git clone https://github.com/jeffreyschoi/611-data-science-project.git
-```.
+```
 
 Navigate into the project directory:
 
 ```bash
 cd 611-data-science-project
-```.
+```
 
 All subsequent commands should be run from the root of this project directory.
 
@@ -109,7 +109,7 @@ Build the Docker image by running:
 
 ```bash
 docker build . -t 611-data-science-project
-```.
+```
 
 ## 3. Start the Docker container
 
@@ -122,7 +122,7 @@ docker run \
 -w /home/rstudio/work \
 -e PASSWORD=yourpassword \
 -it 611-data-science-project
-```.
+```
 
 Replace `yourpassword` with a password of your choice.
 
@@ -143,19 +143,19 @@ Inside RStudio, run the following in the Console tab:
 
 ```bash
 setwd("~/work")
-```.
+```
 
 Next, open the Terminal tab (next to the Console tab) and run
 
 ```bash
 cd work
-```.
+```
 
 To confirm that you are in the project directory, run:
 
 ```bash
 ls
-```.
+```
 
 You should see the project files, including the `Makefile`, `Dockerfile`, R scripts, and data directory.
 
@@ -165,7 +165,7 @@ From the RStudio Terminal, run:
 
 ```bash
 make
-```.
+```
 
 This will execute the Makefile and automatically generate all required intermediate datasets and figures.
 
@@ -173,10 +173,10 @@ The generated datasets will be saved in:
 
 ```text
 derived_data/
-```.
+```
 
 The generated figures will be saved in:
 
 ```text
 figures/
-```.
+```
