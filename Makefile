@@ -20,6 +20,12 @@ clean:
 	rm -rf derived_data/*
 	rm -rf figures/*
 
+derived_data:
+	mkdir -p $@
+
+figures:
+	mkdir -p $@
+
 derived_data/clustered_data.csv: clustered_data_maker.R ai-career-threat-index/data/ai-career-threat-index.csv
 	Rscript clustered_data_maker.R
 	
