@@ -89,4 +89,7 @@ plot <- plot %>%
     legend = list(title = list(text = "Occupational category"))
   )
 
-saveWidget(plot, file = "figures/displacement_trajectory.html", selfcontained = TRUE)
+saveRDS(
+  plot,
+  "figures/displacement_trajectory.rds"
+)

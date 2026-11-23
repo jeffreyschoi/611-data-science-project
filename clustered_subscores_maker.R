@@ -53,4 +53,7 @@ pca_plot <- plot_ly(
     )
   )
 
-saveWidget(pca_plot, file = "figures/clustered_by_subscores.html", selfcontained = TRUE)
+saveRDS(
+  pca_plot,
+  "figures/clustered_by_subscores.rds"
+)

@@ -16,7 +16,7 @@ plot <- plot_ly(
   color = ~risk_level,
   colors = c("Moderate" = "#FFD700", "Low" = "#32CD32", "High" = "#FFA500", "Very High" = "#D7301F"),
   text = ~paste0(
-    "<b>", data$title, "</b>",
+    "<b>", title, "</b>",
     "<br>Score: ", round(score, 2),
     "<br>Income: ", mean_income
   ),
@@ -32,5 +32,7 @@ plot <- plot_ly(
     legend = list(title = list(text = "Risk label"))
   )
 
-saveWidget(plot, file = "figures/scores_by_income_inter.html", selfcontained = TRUE)
-
+saveRDS(
+  plot,
+  "figures/scores_by_income_inter.rds"
+)

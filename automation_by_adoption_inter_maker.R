@@ -51,5 +51,7 @@ plot <- plot_ly(
     )
   )
 
-
-saveWidget(plot, file = "figures/automation_by_adoption.html", selfcontained = TRUE)
+saveRDS(
+  plot,
+  "figures/automation_by_adoption.rds"
+)
