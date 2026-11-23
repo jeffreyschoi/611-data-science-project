@@ -19,4 +19,4 @@ plot <- ggplot(score_changes,aes(x = fct_reorder(title, score_change), y = score
   theme_minimal()
 
 
-ggsave("figures/displacement_score_changes.pdf", plot = plot, width = 10, height = 12)
+ggsave("figures/displacement_score_changes.png", plot = plot, width = 10, height = 12)

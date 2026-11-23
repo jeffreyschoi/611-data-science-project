@@ -25,4 +25,4 @@ plot <- ggplot(plot_data, aes(x = subscore_value, y = income_10k)) +
   ) +
   theme_minimal()
 
-ggsave("figures/subscores_by_income_model.pdf", plot = plot)
+ggsave("figures/subscores_by_income_model.png", plot = plot)
