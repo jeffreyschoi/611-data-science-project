@@ -24,6 +24,8 @@ pca_points <- data.frame(
   PC2 = pca$x[, 2]
 )
 
+pca_points$cluster <- factor(pca_points$cluster)
+
 pca_points$hover_text <- paste0(
   "<b>", pca_points$title, "</b>",
   "<br>Title: ", pca_points$category,
