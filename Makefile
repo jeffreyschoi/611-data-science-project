@@ -14,16 +14,21 @@ figures/clustered_by_subscores.rds \
 figures/automation_by_adoption.rds \
 figures/displacement_trajectory.rds \
 figures/displacement_score_changes.png \
-figures/subscores_by_income_model.png
+figures/subscores_by_income_model.png \
+deliverables/final_report.html
 
 clean:
 	rm -rf derived_data/*
 	rm -rf figures/*
+	rm -rf deliverables/*
 
 derived_data:
 	mkdir -p $@
 
 figures:
+	mkdir -p $@
+
+deliverables:
 	mkdir -p $@
 
 derived_data/clustered_data.csv: clustered_data_maker.R ai-career-threat-index/data/ai-career-threat-index.csv
@@ -64,3 +69,11 @@ figures/displacement_score_changes.png: displacement_score_changes_maker.R deriv
 
 figures/subscores_by_income_model.png: subscores_by_income_model_maker.R derived_data/income_plot_data.csv derived_data/income_model_data.csv
 	Rscript subscores_by_income_model_maker.R
+
+deliverables/final_report.html: final_report.Rmd figures/job_by_income_inter.rds \
+figures/clustered_by_subscores.rds \
+figures/automation_by_adoption.rds \
+figures/displacement_trajectory.rds \
+figures/displacement_score_changes.png \
+figures/subscores_by_income_model.png
+	Rscript -e 'rmarkdown::render(input="$<", output_file="$@", envir=new.env())'
