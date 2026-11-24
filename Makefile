@@ -9,12 +9,12 @@ derived_data/score_changes_data.csv \
 derived_data/income_plot_data.csv \
 derived_data/income_model_data.csv \
 figures/risk_by_job.pdf \
-figures/job_by_income_inter.html \
-figures/clustered_by_subscores.html \
-figures/automation_by_adoption.html \
-figures/displacement_trajectory.html \
-figures/displacement_score_changes.pdf \
-figures/subscores_by_income_model.pdf
+figures/job_by_income_inter.rds \
+figures/clustered_by_subscores.rds \
+figures/automation_by_adoption.rds \
+figures/displacement_trajectory.rds \
+figures/displacement_score_changes.png \
+figures/subscores_by_income_model.png
 
 clean:
 	rm -rf derived_data/*
@@ -47,20 +47,20 @@ derived_data/income_model_data.csv: income_model_data_maker.R income_plot_data_m
 figures/risk_by_job.pdf: risk_by_job_maker.R ai-career-threat-index/data/ai-career-threat-index.csv
 	Rscript risk_by_job_maker.R
 
-figures/job_by_income_inter.html: job_by_income_inter_maker.R ai-career-threat-index/data/ai-career-threat-index.csv
+figures/job_by_income_inter.rds: job_by_income_inter_maker.R ai-career-threat-index/data/ai-career-threat-index.csv
 	Rscript job_by_income_inter_maker.R
 
-figures/clustered_by_subscores.html: clustered_subscores_maker.R derived_data/clustered_data.csv
+figures/clustered_by_subscores.rds: clustered_subscores_maker.R derived_data/clustered_data.csv
 	Rscript clustered_subscores_maker.R
 
-figures/automation_by_adoption.html: automation_by_adoption_inter_maker.R derived_data/clustered_data.csv
+figures/automation_by_adoption.rds: automation_by_adoption_inter_maker.R derived_data/clustered_data.csv
 	Rscript automation_by_adoption_inter_maker.R
 
-figures/displacement_trajectory.html: displacement_trajectory_maker.R derived_data/trajectory_data.csv
+figures/displacement_trajectory.rds: displacement_trajectory_maker.R derived_data/trajectory_data.csv
 	Rscript displacement_trajectory_maker.R
 
-figures/displacement_score_changes.pdf: displacement_score_changes_maker.R derived_data/score_changes_data.csv
+figures/displacement_score_changes.png: displacement_score_changes_maker.R derived_data/score_changes_data.csv
 	Rscript displacement_score_changes_maker.R
 
-figures/subscores_by_income_model.pdf: subscores_by_income_model_maker.R derived_data/income_plot_data.csv derived_data/income_model_data.csv
+figures/subscores_by_income_model.png: subscores_by_income_model_maker.R derived_data/income_plot_data.csv derived_data/income_model_data.csv
 	Rscript subscores_by_income_model_maker.R
