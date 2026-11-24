@@ -1,0 +1,105 @@
+---
+title: "AI Career Threat Index Analysis"
+author: "Jeffrey Choi"
+date: "11/22/2026"
+output: html_document
+---
+
+---
+title: "AI Career Threat Index Analysis"
+author: "Jeffrey Choi"
+date: "11/22/2026"
+output: html_document
+---
+
+This project explores the AI Career Threat Index, a dataset that scores the risk of AI displacement for 300 different jobs. It provides an overall score, along with four subscores that measure task automation, AI tool maturity, adoption, and agentic AI exposure, which are used to compute the final score. Additionally, scores are available across multiple quarters for a handful of jobs, allowing for an exploratory analysis of how the scores change over time.
+
+An important limitation of the dataset to note is that the scores are most likely AI-generated. As a result, this should be considered when interpreting the results as actual evidence or fact. We take an exploratory approach to understanding the structure and validity of the generated data.
+
+## Income-related Effects
+
+We first visualize how income is associated with the risk score. Hovering over each point shows the job title and its associated score and average income.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, out.width="100%"}
+scores_by_income <- readRDS(
+  "figures/scores_by_income_inter.rds"
+)
+
+scores_by_income
+```
+
+An initial hypothesis would be that the risk of job displacement as a result of AI would be higher for lower-income jobs, since jobs with higher incomes may be more technical or require more skills that current AI cannot independently accomplish. And while higher-income jobs do tend to have lower scores, there are also many lower-income occupations in the low-risk group.
+
+This motivates a linear regression model to quantify the relationship between income and the AI-related score. We fit a model with average income as the response variable and each subscore as a predictor, one at a time, to see if the relationship differed across the individual subscores.
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("figures/subscores_by_income_model.png")
+```
+
+Task automation exhibited a statistically significant association with income, while the remaining components did not show statistically significant linear relationships. It seems that if AI can do a significant share of a job's tasks, income tends to be lower. This is interesting since higher scores for AI adoption and tool maturity also increase income. If employers actually use AI for these jobs, and if the tools are mature and effective at targeting those tasks, the income of the job tends to be higher, which seems to contrast with the result of the task automation model. It seems to suggest that jobs that AI can do well are those with lower incomes, yet the higher-income jobs are the ones for which AI is optimized and implemented.
+
+## Automation versus Adoption
+
+This leads us to consider the differences and relationships between these different subscores. To explore this distinction, we plot the automation subscore against the adoption subscore for each occupation.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, out.width="100%"}
+adoption_by_automation <- readRDS(
+  "figures/automation_by_adoption.rds"
+)
+
+adoption_by_automation
+```
+
+The color of the points corresponds to their agentic exposure score, and size corresponds to tool maturity. Overall, we see a highly correlated trend in which a high automation score tends to correspond to a high adoption score, similarly to agentic exposure and tool maturity. Plotting the median lines for automation and adoption allows us to split our plot into four quadrants based on the relative scores.
+
+| Quadrant | Interpretation 2 |
+| --- | --- |
+| High automation, high adoption | Jobs with relatively high automation potential and high AI adoption |
+| High automation, low adoption | Jobs with relatively high automation potential but a comparatively low adoption score |
+| Low automation, high adoption | Jobs with relatively low automation potential but a comparatively high adoption score |
+| Low automation, low adoption | Jobs with relatively low potential and low adoption |
+
+The interesting quadrants are the off-diagonals, where there are jobs with higher values for one subscore but relatively lower values for the other. Interesting job titles in the low-automation, high-adoption quadrant are software engineer, teacher, physician, and real estate agent. Software engineer is interesting in particular since, personally, I would consider software engineering tasks to have high automation potential. This could reflect a distinction between AI tools being adopted in an occupation and AI being able to perform a large share of its core tasks autonomously. Fields such as tech, education, and healthcare may benefit from AI adoption, but only as support, without replacing all responsibilities. On the other hand, jobs such as court clerk, policy analyst, tax examiner, and urban planner exist in the high-automation, low-adoption quadrant. While these roles do include tasks that could benefit from AI automation, low adoption scores could reflect barriers to implementation. Legal, policy, financial, or public-planning fields may be more cautious about adopting AI since concerns about accuracy, accountability, and decision-making may have larger, more important effects.
+
+## Clustering on Subscores
+
+This leads us to consider how different occupations resemble or differ from one another according to their subscores. We use K-means clustering on the four subscores and use the two highest principal components of the subscores to help visualize the groups.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, out.width="100%"}
+clustered_by_subscores <- readRDS(
+  "figures/clustered_by_subscores.rds"
+)
+
+clustered_by_subscores
+```
+
+One of the most interesting findings was that about 92% of the variation in these subscores can be shown in just one of the principal components, suggesting that the inclusion of subscores, rather than the overall score, does very little to further categorize and differentiate different jobs. The scores may share a strong common pattern, with much of their variation aligned along one dominant dimension. Additionally, the clusters appear to be driven largely by the overall magnitude of the subscores. Occupations with relatively high values across multiple components tend to be grouped together, separated from occupations with relatively low values. Assuming that AI was used to create the dataset's subscores, this raises a question about how much the subscores distinguish between different kinds of job risk, rather than just reflecting a general level of risk.
+
+## Trend Data
+
+The dataset also has scores recorded across multiple quarters, leading to an analysis of whether jobs exhibited consistent trends in their scores and whether the changes appeared to be similar across jobs.
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("figures/displacement_score_changes.png")
+```
+
+Overall, most jobs have increased in risk score from Q1 2025 to Q3 2026, with the exceptions of nurse, radiologist, healthcare administrator, and lab technician. Besides these healthcare-focused roles, the remaining jobs follow the expected trend that the current increase in AI development, use, and investment should lead to higher job displacement scores. We aren't entirely sure why these specific jobs have this differing trend, but we elaborate on the validity of the data next.
+
+We also visualize the trend of each individual job, colored by job category.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, out.width="100%"}
+displacement_trajectory <- readRDS(
+  "figures/displacement_trajectory.rds"
+)
+
+displacement_trajectory
+```
+
+We can see a notable change in trajectories between Q2 and Q3 2026. While all the previous trajectories follow a very standard (perhaps too perfect) increasing trend in score, the change in score in the last quarter is substantially more variable. Jobs such as medical transcriptionist, lab technician, and medical coder have a significant drop in score in this quarter after showing a steady increasing trend. Even more peculiar, the average score among jobs also follows a similar pattern, with a steady increase in score but a drop in the last quarter. The source of the dataset states that a significant number of jobs were added to the dataset in Q4 2026, which means that our analysis of these trends includes only a subset of the data. This new addition of jobs may have affected how the AI scored the existing jobs, or perhaps a different AI model, prompt, or method was used in this quarter.
+
+## Conclusion
+
+This analysis examined the association between task automation and income, revealed strong alignment among the subscores, and notable changes in certain job scores over time. The structure of the subscores and the inconsistency of the trends in the quarterly data raises concerns on how the score was constructed and whether they are comparable across jobs and time. As a result, we reiterate that the findings should be interpreted cautiously as the data is AI generated, and the analysis may not accurately reflect real-world AI job displacement's relationship with income, adoptions and automation, and changes over the last year. 
+
+Based on this analysis alone, we believe the dataset is better viewed as exploratory or illustrative rather than as a reliable source for making decisions about occupations. It may reflect some realistic ideas about which tasks AI could affect, but determining whether it captures meaningful real-world patterns would most likely require validating its scores against real-world evidence, such as documented AI adoption, how that adoptions has effected the tasks of each job, and overall employment trends.
+
